@@ -62,9 +62,22 @@ export const shared = {
   computed: {
     active_connections: function() {
         return Object.values(this.connections).filter(
-            conn => "state" in conn && conn.state === "active"
+          conn => {
+            if (!("state" in conn)) {
+              return false;
+            }
+            return conn.state === "active" || conn.state === "response"
+          }
         );
     },
+    id_to_connection: function(connection_id) {
+      let map = {};
+      this.connections.forEach((connection) => {
+        map[connection.connection_id] = connection;
+      })
+      console.log(map);
+      return map;
+    }
   },
   listeners: {
     "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/admin-connections/0.1/connection-list":

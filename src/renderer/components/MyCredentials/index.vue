@@ -8,7 +8,7 @@
     <my-credentials-list
       title="Credentials"
       editable="false"
-      v-bind:credentials="holder_credentials"
+      v-bind:list="holder_credentials"
       v-bind:cred_defs="proposal_cred_defs"
       v-bind:connections="active_connections"
       @cred-refresh="fetch_holder_credentials"
@@ -89,7 +89,7 @@ export default {
       let query_msg = {
         "@type": "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/admin-holder/0.1/send-credential-proposal",
         "connection_id": form.connection_id,
-        "cred_def_id": form.cred_def_id,
+        "credential_definition_id": form.cred_def_id,
         "comment": form.comment, //optional
         "credential_proposal": {
           "@type": "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview",
@@ -98,6 +98,9 @@ export default {
       };
       this.send_message(query_msg);
     }
+  },
+  created: function() {
+    this.fetch_holder_credentials();
   }
 }
 </script>
